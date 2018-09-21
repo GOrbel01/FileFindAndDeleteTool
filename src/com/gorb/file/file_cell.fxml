@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListCell?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <graphic>
+        <HBox>
+            <children>
+                <VBox alignment="CENTER_LEFT" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
+                    <Label fx:id="fileLabel" />
+                </VBox>
+                <VBox alignment="CENTER_RIGHT" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
+                    <CheckBox fx:id="isSelected" alignment="CENTER_RIGHT" contentDisplay="RIGHT" />
+                </VBox>
+            </children>
+        </HBox>
+    </graphic>
+</fx:root>
