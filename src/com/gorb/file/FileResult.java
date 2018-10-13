@@ -7,8 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileResult {
+    private static int COUNTER = 1;
+
     private File file;
     private boolean isSelected;
+    private int id;
 
     public FileResult() {
 
@@ -16,6 +19,29 @@ public class FileResult {
 
     public FileResult(File file) {
         this.file = file;
+        if (!file.isDirectory()) {
+            this.id = COUNTER;
+            COUNTER++;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FileResult that = (FileResult) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public File getFile() {
@@ -46,7 +72,9 @@ public class FileResult {
         List<FileResult> fileResults = new ArrayList<>();
         List<File> filterList = Arrays.asList(file.listFiles(filter));
         for (File f : filterList) {
-            fileResults.add(new FileResult(f));
+            if (!f.isDirectory()) {
+                fileResults.add(new FileResult(f));
+            }
         }
         return fileResults;
     }

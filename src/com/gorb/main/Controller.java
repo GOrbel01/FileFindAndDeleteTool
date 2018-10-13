@@ -69,6 +69,7 @@ public class Controller implements Initializable {
     private ToggleGroup toggleGroup = new ToggleGroup();
     private ObservableList<FileResult> items = FXCollections.observableArrayList();
     private File dir;
+    private FileCellFactory mFactory;
 
     public Controller() {
         this.deleteFiles = new Button();
@@ -89,26 +90,12 @@ public class Controller implements Initializable {
         this.fileSearchRadioButtonName.setSelected(true);
         this.fileSearchRadioButtonExt.setToggleGroup(toggleGroup);
         filesListView.setItems(items);
+        filesListView.setCellFactory(mFactory);
+
+        //GO_DEBUG Test Value
+        dir = new File("C:\\Users\\Leonheart\\Work\\Test");
+        fileTextField.setText(dir.getAbsolutePath());
         filesListView.setCellFactory(new FileCellFactory(items));
-//        filesListView.setCellFactory(new Callback<ListView<File>, ListCell<File>>() {
-//            @Override
-//            public ListCell<File> call(ListView<File> param) {
-//                ListCell<File> cell = new ListCell<File>() {
-//
-//                    @Override
-//                    protected void updateItem(File item, boolean empty) {
-//                        super.updateItem(item, empty);
-//                        if (item != null) {
-//                            setText(item.getAbsolutePath());
-//                        } else {
-//                            setText(null);
-//                        }
-//                    }
-//                };
-//
-//                return cell;
-//            }
-//        });
     }
 
     public void onClickDirectoryButton() {
@@ -142,6 +129,7 @@ public class Controller implements Initializable {
             fileListAssembler.assembleList(items, toFileResultList(Arrays.asList(this.dir.listFiles(fileListAssembler.getFileFilter()))));
             items.sort(Comparator.comparing(f -> f.getFile().getParent()));
             countTextLabel.setText("Found " + items.size() + " files.");
+            System.out.println("Count Text: " + countTextLabel);
         }
     }
 
@@ -160,7 +148,7 @@ public class Controller implements Initializable {
             alert.setHeaderText("Confirm Delete");
             alert.setContentText("Delete " + items.size() + " files?");
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == ButtonType.OK) {
                 for (FileResult file : items) {
                     file.getFile().delete();
                 }
@@ -170,14 +158,21 @@ public class Controller implements Initializable {
     }
 
     public void doDeleteSelected() {
-        int delCount = 0;
+        List<FileResult> resultsToRemove = new ArrayList<>();
+
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).isSelected()) {
-                System.out.println("Confirmed: " + items.get(i).getAbsolutePath());
+                System.out.println("Confirmed: " + items.get(i).getId());
 //                items.get(i).getFile().delete();
-                items.remove(items.get(i));
+                items.get(i).setSelected(false);
+                resultsToRemove.add(items.get(i));
             }
         }
+
+        for (FileResult fr : resultsToRemove) {
+            items.remove(fr);
+        }
+
     }
 
     private void showError(ErrorMessage errorMessage) {

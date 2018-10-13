@@ -22,12 +22,21 @@ public class FileListCell extends ListCell<FileResult> {
     private ObservableList<FileResult> items;
 
     public FileListCell(ObservableList<FileResult> items) {
+        fileLabel = new Label();
+        isSelected = new CheckBox();
         this.items = items;
         loadFXML();
         isSelected.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Selected: " + getItem().getAbsolutePath());
+                if (!getItem().isSelected()) {
+                    System.out.println("Selected: " + getItem().getAbsolutePath() + " ID: " + getItem().getId());
+//                    getItem().setSelected(true);
+                    items.get(items.indexOf(getItem())).setSelected(true);
+                } else {
+                    System.out.println("UnSelected: " + getItem().getAbsolutePath() + " ID: " + getItem().getId());
+                    items.get(items.indexOf(getItem())).setSelected(false);
+                }
             }
         });
     }
@@ -50,6 +59,7 @@ public class FileListCell extends ListCell<FileResult> {
             setText(null);
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         } else {
+            isSelected.setSelected(false);
             fileLabel.setText(item.getAbsolutePath());
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
