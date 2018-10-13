@@ -69,7 +69,6 @@ public class Controller implements Initializable {
     private ToggleGroup toggleGroup = new ToggleGroup();
     private ObservableList<FileResult> items = FXCollections.observableArrayList();
     private File dir;
-    private FileCellFactory mFactory;
 
     public Controller() {
         this.deleteFiles = new Button();
@@ -90,11 +89,6 @@ public class Controller implements Initializable {
         this.fileSearchRadioButtonName.setSelected(true);
         this.fileSearchRadioButtonExt.setToggleGroup(toggleGroup);
         filesListView.setItems(items);
-        filesListView.setCellFactory(mFactory);
-
-        //GO_DEBUG Test Value
-        dir = new File("C:\\Users\\Leonheart\\Work\\Test");
-        fileTextField.setText(dir.getAbsolutePath());
         filesListView.setCellFactory(new FileCellFactory(items));
     }
 
