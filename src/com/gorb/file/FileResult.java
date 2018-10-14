@@ -72,9 +72,7 @@ public class FileResult {
         List<FileResult> fileResults = new ArrayList<>();
         List<File> filterList = Arrays.asList(file.listFiles(filter));
         for (File f : filterList) {
-            if (!f.isDirectory()) {
-                fileResults.add(new FileResult(f));
-            }
+            fileResults.add(new FileResult(f));
         }
         return fileResults;
     }
